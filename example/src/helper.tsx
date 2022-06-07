@@ -93,6 +93,20 @@ export function initTasks() {
       isDisabled: true,
       type: "task",
     },
+    {
+      start: new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() + 1,
+        12
+      ),
+      end: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 14),
+      name: "After Party",
+      id: "Task 9",
+      progress: 0,
+      isDisabled: true,
+      type: "task",
+      dependencies: ["Task 8"],
+    },
   ];
   return tasks;
 }

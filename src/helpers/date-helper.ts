@@ -87,6 +87,12 @@ export const ganttDateRange = (tasks: Task[], viewMode: ViewMode) => {
       newEndDate = addToDate(newEndDate, 1, "year");
       newEndDate = startOfDate(newEndDate, "year");
       break;
+    case ViewMode.Quarter:
+      newStartDate = startOfDate(newStartDate, "month");
+      newStartDate = addToDate(getQuarterRange(newStartDate)[0], -3, "month");
+      newEndDate = startOfDate(newEndDate, "month");
+      newEndDate = addToDate(newEndDate, 1, "month");
+      break;
     case ViewMode.Month:
       newStartDate = addToDate(newStartDate, -1, "month");
       newStartDate = startOfDate(newStartDate, "month");
@@ -95,8 +101,8 @@ export const ganttDateRange = (tasks: Task[], viewMode: ViewMode) => {
       break;
     case ViewMode.Week:
       newStartDate = startOfDate(newStartDate, "day");
-      newEndDate = startOfDate(newEndDate, "day");
       newStartDate = addToDate(getMonday(newStartDate), -7, "day");
+      newEndDate = startOfDate(newEndDate, "day");
       newEndDate = addToDate(newEndDate, 1.5, "month");
       break;
     case ViewMode.Day:
@@ -138,6 +144,9 @@ export const seedDates = (
     switch (viewMode) {
       case ViewMode.Year:
         currentDate = addToDate(currentDate, 1, "year");
+        break;
+      case ViewMode.Quarter:
+        currentDate = addToDate(currentDate, 3, "month");
         break;
       case ViewMode.Month:
         currentDate = addToDate(currentDate, 1, "month");
@@ -197,6 +206,30 @@ const getMonday = (date: Date) => {
   const day = date.getDay();
   const diff = date.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is sunday
   return new Date(date.setDate(diff));
+};
+
+/**
+ * Returns the number of the quarter
+ * @param date date for modify
+ */
+export const getQuarterNumber = (date: Date) => {
+  return Math.floor(date.getMonth() / 3 + 1);
+};
+
+/**
+ * Returns the range of the quarter
+ * @param date date for modify
+ */
+const getQuarterRange = (date: Date) => {
+  const quarter = getQuarterNumber(date);
+  const firstDate = new Date(date.getFullYear(), (quarter - 1) * 3, 1);
+  const endDate = new Date(
+    firstDate.getFullYear(),
+    firstDate.getMonth() + 3,
+    0
+  );
+
+  return [firstDate, endDate];
 };
 
 export const getWeekNumberISO8601 = (date: Date) => {
