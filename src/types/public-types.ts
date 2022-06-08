@@ -7,7 +7,7 @@ export enum ViewMode {
   Week = "Week",
   Month = "Month",
   Quarter = "Quarter",
-  Year = "Year"
+  Year = "Year",
 }
 export type TaskType = "task" | "milestone" | "project";
 export interface Task {
@@ -81,6 +81,7 @@ export interface DisplayOption {
 }
 
 export interface StylingOption {
+  className?: string;
   headerHeight?: number;
   columnWidth?: number;
   listCellWidth?: string;
